@@ -119,7 +119,7 @@ const FaceRecognition = () => {
           tempEmotionData = initialData;
         }
         else {
-          // Calculate average emotions from previous data and new data
+          // Calculate average emotions from previous data and new data.
           const avgE = {
             angry: calculateAverage(tempEmotionData.angry, currentE.angry),
             disgusted: calculateAverage(tempEmotionData.disgusted, currentE.disgusted),
