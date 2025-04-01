@@ -195,12 +195,10 @@ function ReviewPage() {
         </div>
         <div className="right-content2-main">
           <p>Want to Test your skills again?</p>
-          <div className="button-group">
-            <button onClick={gotoHomePage}>Take Interview</button>
-            <button onClick={handleLogout} className="logout-button">
-              Logout
-            </button>
-          </div>
+          <button onClick={gotoHomePage}>Take Interview</button>
+          <button onClick={handleLogout} className="logout-button">
+            Logout
+          </button>
         </div>
       </div>
     </div>

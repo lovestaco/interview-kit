@@ -102,12 +102,45 @@ function HomePage() {
     const inputValue = event.target.value;
     setJobInput(inputValue);
   };
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/", { replace: true });
+  };
 
   return (
     <div className="Home-div">
-      <div className="header-div">
-        <h1 className="header-text">Interview Kit</h1>
+      <div
+        className="header-div"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        <h1 className="header-text" style={{ marginLeft: "120px" }}>
+          Interview Kit
+        </h1>
+        <button
+          onClick={handleLogout}
+          className="logout-button"
+          style={{
+            marginLeft: "auto",
+            padding: "8px 16px",
+            backgroundColor: "#4590fd",
+            border: "none",
+            borderRadius: "5px",
+            marginRight: "120px",
+            cursor: "pointer",
+            color: "black",
+            fontWeight: "450",
+            boxShadow: "0 2px 10px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          Logout
+        </button>
       </div>
+
       <div className="context-div">
         <div className="text-div">
           <div className="Typing-effect">
