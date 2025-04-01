@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import "../css/ReviewPageNew.css";
 import Markdown from "react-markdown";
 import axios from "axios";
@@ -24,30 +24,27 @@ function ReviewPage() {
     gValidReview,
     gSuspiciousCount,
   } = useContext(GlobalContext);
-
-  const [review, setReview] = useState("");
-  const [displayText, setDisplayText] = useState("");
-  const navigate = useNavigate();
-
   // Get userId from localStorage
   const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
+  const [review, setReview] = useState("");
+  const [displayText, setDisplayText] = useState("");
+  const hasFetchedReview = useRef(false); // UseRef to track API call
 
-  // check if valid entry to review page
   useEffect(() => {
     if (!gValidReview || !userId) {
-      window.location.replace("/"); // Re-direct to home page
+      window.location.replace("/");
     }
-  }, []);
+  }, [gValidReview, userId]);
 
-  // call getReview
   useEffect(() => {
-    getReview();
-  }, [gAns]); // call when ans data is loaded
+    if (gAns.length > 0 && review === "" && !hasFetchedReview.current) {
+      hasFetchedReview.current = true; // Mark as fetched before calling API
+      getReview();
+    }
+  }, [gAns, review]);
 
   const getReview = async () => {
-    if (gAns.length === 0) return;
-    if (review !== "") return;
-
     try {
       const response = await axios.post(
         "http://127.0.0.1:5000/api/get-review",
@@ -57,7 +54,7 @@ function ReviewPage() {
           ans: gAns,
           emotion: gEmotionData,
           suspiciousCount: gSuspiciousCount,
-          userId: parseInt(userId), // Add userId to request
+          userId: parseInt(userId),
         }
       );
 
@@ -76,20 +73,22 @@ function ReviewPage() {
 
   // typing effect--------------
   useEffect(() => {
-    let count = 0;
-    let temp = "";
-    let speed = review.length > 1000 ? 20 : 40;
-    const intervalId = setInterval(() => {
-      if (count >= review.length) {
-        clearInterval(intervalId);
-        return;
-      }
+    if (review) {
+      let count = 0;
+      let temp = "";
+      let speed = review.length > 1000 ? 20 : 40;
+      const intervalId = setInterval(() => {
+        if (count >= review.length) {
+          clearInterval(intervalId);
+          return;
+        }
 
-      temp += review[count];
-      setDisplayText(temp);
-      count++;
-    }, speed);
-    return () => clearInterval(intervalId);
+        temp += review[count];
+        setDisplayText(temp);
+        count++;
+      }, speed);
+      return () => clearInterval(intervalId);
+    }
   }, [review]);
 
   const gotoHomePage = () => {
