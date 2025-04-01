@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, g
 import google.generativeai as genai
 from functions.question_generation import generate_questions
+
 # from functions.emotion_analysis import analyze_fun
 from functions.review_generation import gen_review
 from flask_cors import CORS, cross_origin
@@ -11,60 +12,74 @@ app = Flask(__name__)
 CORS(app)
 
 load_dotenv()  # Loads the variables from the .env file
-gemini_api_key = os.getenv('GEMINI_API_KEY3')
+gemini_api_key = "AIzaSyD-1adQkuwUitN130h3PuL_zk2mWjepxlw"
 
 # Initialize the Generative AI model and chat session globally
 genai.configure(api_key=gemini_api_key)
 
 model = genai.GenerativeModel(model_name="gemini-1.5-flash")
+
+
 @app.before_request
 def before_request():
     g.model = model
+
 
 @app.route("/")
 def home():
     return "Weclome to Mock-Interview-System/Server", 200
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return jsonify({"status": 404, "message": "Not Found"}), 404
 
-@app.route('/api/get-questions', methods=['POST'])
+
+@app.route("/api/get-questions", methods=["POST"])
 def ask_questions():
     try:
         data = request.get_json()
-        job_role = data['job_role']
-        experience_lvl = data['experience_lvl']
+        job_role = data["job_role"]
+        experience_lvl = data["experience_lvl"]
         response = generate_questions(job_role, experience_lvl)
 
         # if not list then error
         if not isinstance(response, list):
-            return jsonify({'errorMsg': response}), 400
-        else: # success
-            return jsonify({'job_role' : job_role, 'exp_level' : experience_lvl, 'qtns': response}), 200
+            return jsonify({"errorMsg": response}), 400
+        else:  # success
+            return (
+                jsonify(
+                    {
+                        "job_role": job_role,
+                        "exp_level": experience_lvl,
+                        "qtns": response,
+                    }
+                ),
+                200,
+            )
     except Exception as e:
         print(f"Error occurred while generating question: {e}")
-        return jsonify({'errorMsg': "Something went wrong"}), 400
+        return jsonify({"errorMsg": "Something went wrong"}), 400
 
 
-@app.route('/api/get-review', methods=['POST'])
+@app.route("/api/get-review", methods=["POST"])
 def get_review():
     try:
         data = request.get_json()
-        job_role = data['job_role']
+        job_role = data["job_role"]
         # experience_lvl = data['experience_lvl']
-        qns = data['qns']
-        ans = data['ans']
-        emotion = data['emotion']
-        suspiciousCount = data['suspiciousCount']
+        qns = data["qns"]
+        ans = data["ans"]
+        emotion = data["emotion"]
+        suspiciousCount = data["suspiciousCount"]
 
         # get review
         review = gen_review(job_role, qns, ans, emotion, suspiciousCount)
 
-        return jsonify({'review': review})
+        return jsonify({"review": review})
     except Exception as e:
         print(f"Error occurred while generating review: {e}")
-        return jsonify({'errorMsg': "Something went wrong"}), 400
+        return jsonify({"errorMsg": "Something went wrong"}), 400
 
 
 # Emotion analysis using backend, not used anymore
@@ -104,5 +119,5 @@ def get_review():
 #         return jsonify({'errorMsg': "Something went wrong"}), 400
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
