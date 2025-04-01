@@ -39,7 +39,7 @@ def teardown_db(exception):
 
 @app.route("/")
 def home():
-    return "Weclome to Mock-Interview-System/Server", 200
+    return "Weclome to Interview Kit/Server", 200
 
 
 @app.errorhandler(404)

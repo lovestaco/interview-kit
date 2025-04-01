@@ -1,4 +1,4 @@
-## <img src="https://github.com/MeghanathShetty/Mock-Interview-System-Python/assets/127648939/afd19053-6bfd-4100-b859-55cd25bbd66f" alt="Image Alt Text" style="width:27px;" /> Mock Interview System
+## <img src="https://github.com/MeghanathShetty/Mock-Interview-System-Python/assets/127648939/afd19053-6bfd-4100-b859-55cd25bbd66f" alt="Image Alt Text" style="width:27px;" /> Interview Kit
 
 ## Visit at https://mock-interview-system-python.vercel.app/
 
@@ -102,4 +102,4 @@ To set up the database for the Mock Interview System, follow these steps:
 - If you encounter any issues, check the Alembic logs for more details.
 - Make sure the user specified in the `DATABASE_URL` has the necessary permissions to create tables in the database.
 
-By following these steps, you should be able to set up the database for the Mock Interview System successfully.
+By following these steps, you should be able to set up the database for the Interview Kit System successfully.

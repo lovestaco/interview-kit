@@ -1,9 +1,11 @@
 from flask import g
 import textwrap
 
+
 def to_markdown(text):
-    text = text.replace('•', '  *')
-    return textwrap.indent(text, '> ', predicate=lambda _: True)
+    text = text.replace("•", "  *")
+    return textwrap.indent(text, "> ", predicate=lambda _: True)
+
 
 def gen_review(job_role, qns, ans, emotion_analysis, suspiciousCount):
     # data = job_role + qns_ans + emotion analysis
@@ -16,7 +18,11 @@ def gen_review(job_role, qns, ans, emotion_analysis, suspiciousCount):
         data += "\n Qtn " + str(i + 1) + ": " + qns[i] + "\n Ans: " + ans[i]
 
     data += "\nEmotion Analysis:\n" + str(emotion_analysis)
-    data += "\nSuspicious Activity detected " + str(suspiciousCount) + " times while giving online mock interview."
+    data += (
+        "\nSuspicious Activity detected "
+        + str(suspiciousCount)
+        + " times while giving online interview."
+    )
 
     # print("\nData = ",data)
 
@@ -30,7 +36,7 @@ def gen_review(job_role, qns, ans, emotion_analysis, suspiciousCount):
         "RULE 2: Don't write anything extra, only write the review."
         "RULE 3: Dont include any main headings such as 'review', use side-headings for explaining."
         "RULE 4: If emotion analysis data is present then USE that for review also."
-        "RULE 5: This review is for an interview given in an website where anyone take mock interviews,"
+        "RULE 5: This review is for an interview given in an website where anyone take interviews,"
         "so write review based on that, but dont tell hi,thank u and all."
         "RULE 6: Dont use/assume or write fake data which is not in context for review."
         "RULE 7: If suspicious activiyt is detected more than 3 times, "
@@ -42,7 +48,7 @@ def gen_review(job_role, qns, ans, emotion_analysis, suspiciousCount):
 
     # call gemini
     response = g.model.generate_content([msg])
-    raw_text=response.text
+    raw_text = response.text
 
     final_text = to_markdown(raw_text)
 

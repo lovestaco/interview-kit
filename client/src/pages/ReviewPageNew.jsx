@@ -167,7 +167,7 @@ function ReviewPage() {
               <p>
                 Thank You <br />
                 for choosing our
-                <br /> Mock Interview System
+                <br /> Interview Kit
               </p>
             </div>
             <div className="right-content1-sub1-model">
@@ -183,14 +183,13 @@ function ReviewPage() {
           </div>
           <div className="right-content1-sub2">
             <p>
-              Hey there! Thanks for picking our Mock Interview System to help
-              you get interview-ready. We're here to give you a real feel of
-              what it's like to sit through interviews, minus the stress.
-              Whether you're gearing up for your first job, switching careers,
-              or just want to ace that next big opportunity, we've got you
-              covered. Practice with us, get feedback, and walk into your
-              interviews with confidence. Let's make sure you're ready to
-              impress!
+              Hey there! Thanks for picking our Interview Kit to help you get
+              interview-ready. We're here to give you a real feel of what it's
+              like to sit through interviews, minus the stress. Whether you're
+              gearing up for your first job, switching careers, or just want to
+              ace that next big opportunity, we've got you covered. Practice
+              with us, get feedback, and walk into your interviews with
+              confidence. Let's make sure you're ready to impress!
             </p>
           </div>
         </div>
