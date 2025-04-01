@@ -28,7 +28,51 @@ function ReviewPage() {
   const [review, setReview] = useState("");
   const [displayText, setDisplayText] = useState("");
   const navigate = useNavigate();
-  const serverURL = process.env.REACT_APP_SERVER_URL;
+
+  // Get userId from localStorage
+  const userId = localStorage.getItem("userId");
+
+  // check if valid entry to review page
+  useEffect(() => {
+    if (!gValidReview || !userId) {
+      window.location.replace("/"); // Re-direct to home page
+    }
+  }, []);
+
+  // call getReview
+  useEffect(() => {
+    getReview();
+  }, [gAns]); // call when ans data is loaded
+
+  const getReview = async () => {
+    if (gAns.length === 0) return;
+    if (review !== "") return;
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:5000/api/get-review",
+        {
+          job_role: gJobRole,
+          qns: gQtns,
+          ans: gAns,
+          emotion: gEmotionData,
+          suspiciousCount: gSuspiciousCount,
+          userId: parseInt(userId), // Add userId to request
+        }
+      );
+
+      setReview(response.data.review);
+    } catch (error) {
+      toast.error(error.response?.data?.error || "Something went wrong", {
+        ...toastErrorStyle(),
+        autoClose: 2000,
+      });
+      console.error(
+        "Error generating review:",
+        error.response?.data?.errorMsg || error.message
+      );
+    }
+  };
 
   // typing effect--------------
   useEffect(() => {
@@ -48,49 +92,8 @@ function ReviewPage() {
     return () => clearInterval(intervalId);
   }, [review]);
 
-  // check if valid entry to review page
-  useEffect(() => {
-    if (!gValidReview) {
-      window.location.replace("/"); // Re-direct to home page
-    }
-  }, []);
-
-  // call getReview
-  useEffect(() => {
-    getReview();
-  }, [gAns]); // call when ans data is loaded, then rest variables are assumed loaded
-
-  const getReview = async () => {
-    if (gAns.length === 0) return; // extra validation
-    if (review !== "") return; // extra validation
-
-    try {
-      const response = await axios.post(
-        `http://127.0.0.1:5000/api/get-review`,
-        {
-          job_role: gJobRole,
-          qns: gQtns,
-          ans: gAns,
-          emotion: gEmotionData,
-          suspiciousCount: gSuspiciousCount,
-        }
-      );
-
-      setReview(response.data.review);
-    } catch (error) {
-      toast.error(
-        error.response ? error.response.data.errorMsg : error.message || error,
-        { ...toastErrorStyle(), autoClose: 2000 }
-      );
-      console.log(
-        "Something went wrong!",
-        error.response ? error.response.data.errorMsg : error.message || error
-      );
-    }
-  };
-
   const gotoHomePage = () => {
-    navigate("/", { replace: true });
+    navigate("/home", { replace: true });
   };
 
   return (

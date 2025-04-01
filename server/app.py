@@ -79,18 +79,24 @@ def get_review():
     try:
         data = request.get_json()
         job_role = data["job_role"]
-        # experience_lvl = data['experience_lvl']
         qns = data["qns"]
         ans = data["ans"]
         emotion = data["emotion"]
         suspiciousCount = data["suspiciousCount"]
+        user_id = data["userId"]  # Get userId from request
 
         # get review
         review = gen_review(job_role, qns, ans, emotion, suspiciousCount)
 
+        # Store interview data in database
+        new_interview = Interview(user_id=user_id, applying_for=job_role, result=review)
+        g.db.add(new_interview)
+        g.db.commit()
+
         return jsonify({"review": review})
     except Exception as e:
         print(f"Error occurred while generating review: {e}")
+        g.db.rollback()  # Rollback on error
         return jsonify({"errorMsg": "Something went wrong"}), 400
 
 
