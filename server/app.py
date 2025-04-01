@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app)
 
 load_dotenv()  # Loads the variables from the .env file
-gemini_api_key = ""
+gemini_api_key = "AIzaSyD-1adQkuwUitN130h3PuL_zk2mWjepxlw"
 
 # Initialize the Generative AI model and chat session globally
 genai.configure(api_key=gemini_api_key)
