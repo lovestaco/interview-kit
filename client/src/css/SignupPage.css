@@ -1,4 +1,4 @@
-.login-container {
+.signup-container {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -8,7 +8,7 @@
   background-position: center;
 }
 
-.login-box {
+.signup-box {
   background: rgba(255, 255, 255, 0.9);
   padding: 2rem;
   border-radius: 10px;
@@ -17,7 +17,7 @@
   max-width: 400px;
 }
 
-.login-box h2 {
+.signup-box h2 {
   text-align: center;
   color: #4590fd;
   margin-bottom: 2rem;
@@ -47,35 +47,39 @@
   cursor: not-allowed;
 }
 
-.skipButton {
+.submit-button {
+  width: 100%;
+  padding: 0.8rem;
   background-color: #4590fd;
-  border: 3px solid #4590fd;
-  transition: background-color 0.3s ease-in-out;
-  transition: box-shadow 0.3s ease-in-out;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
-.skipButton:hover {
-  background-color: #4590fd;
+
+.submit-button:hover:not(:disabled) {
+  background-color: #1565c0;
   box-shadow: 0px 1px 10px #4590fd;
 }
 
-@media (max-width: 480px) {
-  .login-box {
-    margin: 1rem;
-    padding: 1.5rem;
-  }
+.submit-button:disabled {
+  background-color: #90caf9;
+  cursor: not-allowed;
 }
 
-.signup-link {
+.login-link {
   text-align: center;
   margin-top: 1rem;
 }
 
-.signup-link a {
+.login-link a {
   color: #4590fd;
   text-decoration: none;
   font-weight: bold;
 }
 
-.signup-link a:hover {
+.login-link a:hover {
   text-decoration: underline;
 }

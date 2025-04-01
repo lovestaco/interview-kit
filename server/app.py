@@ -150,55 +150,85 @@ def signin():
         # Check if user exists
         existing_user = g.db.query(User).filter(User.email == email).first()
 
-        if existing_user:
-            # User exists - verify password
-            if check_password_hash(existing_user.password, password):
-                return (
-                    jsonify(
-                        {
-                            "message": "Login successful",
-                            "user": {
-                                "id": existing_user.id,
-                                "email": existing_user.email,
-                                "role": existing_user.role,
-                            },
-                        }
-                    ),
-                    200,
-                )
-            else:
-                return jsonify({"error": "Invalid password"}), 401
-        else:
-            # Create new user
-            hashed_password = generate_password_hash(password)
-            new_user = User(
-                email=email,
-                password=hashed_password,
-                role="employee",  # Default role for new users
-            )
+        if not existing_user:
+            return jsonify({"error": "Email not found. Please sign up first"}), 404
 
-            try:
-                g.db.add(new_user)
-                g.db.commit()
-                return (
-                    jsonify(
-                        {
-                            "message": "User registered successfully",
-                            "user": {
-                                "id": new_user.id,
-                                "email": new_user.email,
-                                "role": new_user.role,
-                            },
-                        }
-                    ),
-                    201,
-                )
-            except exc.IntegrityError:
-                g.db.rollback()
-                return jsonify({"error": "Email already exists"}), 409
+        # Verify password
+        if check_password_hash(existing_user.password, password):
+            return (
+                jsonify(
+                    {
+                        "message": "Login successful",
+                        "user": {
+                            "id": existing_user.id,
+                            "email": existing_user.email,
+                            "first_name": existing_user.first_name,
+                            "last_name": existing_user.last_name,
+                            "role": existing_user.role,
+                        },
+                    }
+                ),
+                200,
+            )
+        else:
+            return jsonify({"error": "Invalid password"}), 401
 
     except Exception as e:
         print(f"Error in signin: {e}")
+        return jsonify({"error": "Something went wrong"}), 500
+
+
+@app.route("/api/signup", methods=["POST"])
+def signup():
+    try:
+        data = request.get_json()
+        email = data.get("email")
+        password = data.get("password")
+        first_name = data.get("firstName")
+        last_name = data.get("lastName")
+        phone = data.get("phone")
+
+        # Validate required fields
+        if not all([email, password, first_name, last_name, phone]):
+            return jsonify({"error": "All fields are required"}), 400
+
+        # Check if user already exists
+        if g.db.query(User).filter(User.email == email).first():
+            return jsonify({"error": "Email already registered"}), 409
+
+        # Create new user
+        hashed_password = generate_password_hash(password)
+        new_user = User(
+            email=email,
+            password=hashed_password,
+            first_name=first_name,
+            last_name=last_name,
+            phone=phone,
+            role="employee",
+        )
+
+        g.db.add(new_user)
+        g.db.commit()
+
+        return (
+            jsonify(
+                {
+                    "message": "User registered successfully",
+                    "user": {
+                        "id": new_user.id,
+                        "email": new_user.email,
+                        "first_name": new_user.first_name,
+                        "last_name": new_user.last_name,
+                        "role": new_user.role,
+                    },
+                }
+            ),
+            201,
+        )
+
+    except Exception as e:
+        print(f"Error in signup: {e}")
+        g.db.rollback()
         return jsonify({"error": "Something went wrong"}), 500
 
 
@@ -215,7 +245,12 @@ def list_interviews():
                         "id": interview.id,
                         "created_at": interview.created_at,
                         "applying_for": interview.applying_for,
-                        "user": {"email": interview.user.email},
+                        "user": {
+                            "email": interview.user.email,
+                            "first_name": interview.user.first_name,
+                            "last_name": interview.user.last_name,
+                            "phone": interview.user.phone,
+                        },
                     }
                     for interview in interviews
                 ]

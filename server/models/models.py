@@ -9,7 +9,11 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
-    role = Column(String, nullable=False)  # 'admin' or 'employee'
+    first_name = Column(String, nullable=True, default="intervieww")
+    last_name = Column(String, nullable=True, default="intervieww")
+    phone = Column(String, nullable=True, default="intervieww")
+    role = Column(String, default="employee")
+    created_at = Column(DateTime, server_default=func.now())
 
     # Relationship with Interview model
     interviews = relationship("Interview", back_populates="user")

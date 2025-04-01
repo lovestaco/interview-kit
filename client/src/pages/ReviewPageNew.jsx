@@ -96,6 +96,11 @@ function ReviewPage() {
     navigate("/home", { replace: true });
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/", { replace: true });
+  };
+
   return (
     <div className="review-main-div">
       {/* Review display part */}
@@ -191,7 +196,12 @@ function ReviewPage() {
         </div>
         <div className="right-content2-main">
           <p>Want to Test your skills again?</p>
-          <button onClick={gotoHomePage}>Take Interview</button>
+          <div className="button-group">
+            <button onClick={gotoHomePage}>Take Interview</button>
+            <button onClick={handleLogout} className="logout-button">
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </div>

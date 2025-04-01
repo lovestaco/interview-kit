@@ -75,6 +75,8 @@ function InterviewList() {
                 <th>#</th>
                 <th>Date</th>
                 <th>Email</th>
+                <th>Name</th>
+                <th>Phone</th>
                 <th>Job Role</th>
               </tr>
             </thead>
@@ -88,6 +90,8 @@ function InterviewList() {
                   <td>{index + 1}</td>
                   <td>{formatDate(interview.created_at)}</td>
                   <td>{interview.user.email}</td>
+                  <td>{`${interview.user.first_name} ${interview.user.last_name}`}</td>
+                  <td>{interview.user.phone}</td>
                   <td>{interview.applying_for}</td>
                 </tr>
               ))}

@@ -13,6 +13,7 @@ import { GlobalProvider } from "./components/utils/GlobalState";
 import "bootstrap/dist/css/bootstrap.min.css";
 import InterviewList from "./pages/admin/InterviewList";
 import InterviewDetail from "./pages/admin/InterviewDetail";
+import SignupPage from "./pages/SignupPage";
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -42,6 +43,7 @@ function App() {
       <GlobalProvider>
         <Routes>
           <Route path="/" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
           <Route
             path="/home"
             element={

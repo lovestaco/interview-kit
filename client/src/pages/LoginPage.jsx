@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   toastErrorStyle,
@@ -64,7 +64,7 @@ function LoginPage() {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2>Welcome to Mock Interview</h2>
+        <h2>Welcome Back</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <input
@@ -94,6 +94,9 @@ function LoginPage() {
             )}
           </button>
         </form>
+        <p className="signup-link">
+          Don't have an account? <Link to="/signup">Sign Up</Link>
+        </p>
       </div>
     </div>
   );
