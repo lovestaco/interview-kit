@@ -1,4 +1,4 @@
-.Main-interview-div{
+.Main-interview-div {
   width: 100%;
   height: 100vh;
   display: flex;
@@ -16,11 +16,11 @@
   align-items: center;
   flex-direction: column;
   padding: 10px;
-  border: 3px solid #edc215;
+  border: 3px solid #4590fd;
   border-radius: 10px;
   box-sizing: border-box; /* Ensure padding is included in height */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .questionDisplay-div {
@@ -33,7 +33,7 @@
   padding: 10px;
   margin-top: 20px;
 }
-.videoDisplay-div{
+.videoDisplay-div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,7 +84,7 @@
 .question-div p,
 .answer-transcript,
 .placeholder-div {
-  font-size: calc(0.65vw + 0.65vh); 
+  font-size: calc(0.65vw + 0.65vh);
   font-weight: 420;
 }
 
@@ -93,10 +93,10 @@
   padding-top: 5px;
 }
 
-.placeholder-div{
+.placeholder-div {
   color: grey;
   display: flex;
-  justify-content:center;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
   width: 100%;
@@ -161,62 +161,59 @@
 }
 
 .skipButton {
-  border:3px solid #edc215;
+  border: 3px solid #4590fd;
   transition: background-color 0.3s ease-in-out;
   transition: box-shadow 0.3s ease-in-out;
 }
-.skipButton:hover{
-  background-color: #edc215;
-  box-shadow: 0px 1px 10px #EDC215;
-  
+.skipButton:hover {
+  background-color: #4590fd;
+  box-shadow: 0px 1px 10px #4590fd;
 }
 
 .SubmitButton {
-  border:3px solid #edc215;
+  border: 3px solid #4590fd;
   transition: background-color 0.3s ease-in-out;
   transition: box-shadow 0.3s ease-in-out;
   display: none;
 }
-.SubmitButton:hover{
-  background-color: #edc215;
-  box-shadow: 0px 1px 10px #EDC215;
+.SubmitButton:hover {
+  background-color: #4590fd;
+  box-shadow: 0px 1px 10px #4590fd;
 }
 
 .Re-recordAnswerButton {
-  border:3px solid green;
+  border: 3px solid green;
   transition: background-color 0.3s ease-in-out;
   transition: box-shadow 0.3s ease-in-out;
 }
-.Re-recordAnswerButton:hover{
+.Re-recordAnswerButton:hover {
   background-color: green;
   color: white;
   box-shadow: 0px 1px 10px green;
 }
 
 .nextButton {
-  border:3px solid rgb(59, 59, 239);
+  border: 3px solid rgb(59, 59, 239);
   transition: background-color 0.3s ease-in-out;
   transition: box-shadow 0.3s ease-in-out;
 }
-.nextButton:hover{
+.nextButton:hover {
   background-color: rgb(59, 59, 239);
   color: white;
   box-shadow: 0px 1px 10px rgb(59, 59, 239);
 }
 
 .stopButton {
-  border:3px solid rgb(231, 3, 3);
+  border: 3px solid rgb(231, 3, 3);
   background-color: white;
   transition: background-color 0.3s ease-in-out;
   transition: box-shadow 0.3s ease-in-out;
 }
-.stopButton:hover{
+.stopButton:hover {
   background-color: rgb(231, 3, 3);
   color: white;
   box-shadow: 0px 1px 10px rgb(231, 3, 3);
 }
-
-
 
 .iconContainer-div {
   position: relative;
@@ -245,7 +242,6 @@
   border-radius: 10px;
 }
 
-
 .hidden1 {
   display: none;
   transform: translateY(-20px); /* Optional slide-up effect */
@@ -261,23 +257,23 @@
 }
 
 /* Responsive adjustments */
-@media (max-width:1650px) {
+@media (max-width: 1650px) {
   .question-div p,
   .answer-transcript,
   .placeholder-div {
-    font-size: calc(0.8vw + 0.8vh); 
+    font-size: calc(0.8vw + 0.8vh);
   }
 }
-@media (max-width:1000px) {
+@media (max-width: 1000px) {
   .question-div p,
   .answer-transcript,
   .placeholder-div {
-    font-size: calc(1vw + 1vh); 
+    font-size: calc(1vw + 1vh);
   }
 }
 @media (max-width: 768px) {
-  .interview-div{
-    width:100%;
+  .interview-div {
+    width: 100%;
   }
   .videoDisplay-div,
   .questionDisplay-div,
@@ -290,14 +286,14 @@
 
   .answerDisplay-div {
     height: auto;
-    overflow-y:visible; /* Allow height to adjust */
+    overflow-y: visible; /* Allow height to adjust */
     padding: 5px; /* Reduce padding */
   }
 
   .question-div p,
   .answer-transcript,
   .placeholder-div {
-    font-size: calc(1.2vw + 1.2vh); 
+    font-size: calc(1.2vw + 1.2vh);
   }
 
   .buttonDisplay-div {
@@ -318,7 +314,7 @@
     margin-top: 10px; /* Reduce top margin */
     font-size: 14px; /* Adjust font size */
   }
-  .numberIcon{
+  .numberIcon {
     font-size: 30px;
   }
   .responsiveBtnTxt {
@@ -327,8 +323,8 @@
 }
 
 @media (max-width: 480px) {
-  .interview-div{
-    width:100%;
+  .interview-div {
+    width: 100%;
   }
   .videoDisplay-div,
   .questionDisplay-div,
@@ -362,7 +358,7 @@
     height: 50px; /* Increase button height */
     font-size: 13px; /* Adjust font size */
   }
-  .numberIcon{
+  .numberIcon {
     font-size: 20px;
   }
 }
