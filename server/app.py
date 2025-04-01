@@ -202,5 +202,52 @@ def signin():
         return jsonify({"error": "Something went wrong"}), 500
 
 
+@app.route("/api/admin/interviews", methods=["GET"])
+def list_interviews():
+    try:
+        interviews = (
+            g.db.query(Interview).join(User).order_by(Interview.created_at.desc()).all()
+        )
+        return jsonify(
+            {
+                "interviews": [
+                    {
+                        "id": interview.id,
+                        "created_at": interview.created_at,
+                        "applying_for": interview.applying_for,
+                        "user": {"email": interview.user.email},
+                    }
+                    for interview in interviews
+                ]
+            }
+        )
+    except Exception as e:
+        print(f"Error fetching interviews: {e}")
+        return jsonify({"error": "Failed to fetch interviews"}), 500
+
+
+@app.route("/api/admin/interviews/<int:id>", methods=["GET"])
+def get_interview(id):
+    try:
+        interview = g.db.query(Interview).join(User).filter(Interview.id == id).first()
+        if not interview:
+            return jsonify({"error": "Interview not found"}), 404
+
+        return jsonify(
+            {
+                "interview": {
+                    "id": interview.id,
+                    "created_at": interview.created_at,
+                    "applying_for": interview.applying_for,
+                    "result": interview.result,
+                    "user": {"email": interview.user.email},
+                }
+            }
+        )
+    except Exception as e:
+        print(f"Error fetching interview: {e}")
+        return jsonify({"error": "Failed to fetch interview"}), 500
+
+
 if __name__ == "__main__":
     app.run(debug=True)

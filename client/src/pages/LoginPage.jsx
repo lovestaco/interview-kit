@@ -29,6 +29,14 @@ function LoginPage() {
       return;
     }
 
+    // Check for admin login
+    if (email === "admin@gmail.com" && password === "admin@gmail.com") {
+      localStorage.setItem("isAdmin", "true");
+      toast.success("Admin login successful", { ...toastSuccessStyle() });
+      navigate("/admin/interviews");
+      return;
+    }
+
     try {
       setIsLoading(true);
       const response = await axios.post("http://127.0.0.1:5000/api/signin", {
