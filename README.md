@@ -28,23 +28,15 @@ To set up the database for the Mock Interview System, follow these steps:
    Open your PostgreSQL command line or use a database client to create a new database and user:
 
    ```sql
-   CREATE DATABASE your_database_name;
-   CREATE USER your_user_name WITH PASSWORD 'your_password';
-   ALTER ROLE your_user_name SET client_encoding TO 'utf8';
-   ALTER ROLE your_user_name SET default_transaction_isolation TO 'read committed';
-   ALTER ROLE your_user_name SET timezone TO 'UTC';
-   GRANT ALL PRIVILEGES ON DATABASE your_database_name TO your_user_name;
+   CREATE DATABASE interview_db;
+   CREATE USER interview_user WITH PASSWORD 'securepassword';
+   ALTER ROLE interview_user SET client_encoding TO 'utf8';
+   ALTER ROLE interview_user SET default_transaction_isolation TO 'read committed';
+   ALTER ROLE interview_user SET timezone TO 'UTC';
+   GRANT ALL PRIVILEGES ON DATABASE interview_db TO interview_user;
    ```
 
-2. **Configure the Database URL**
-
-   Update the `DATABASE_URL` in `server/config/database.py` and `sqlalchemy.url` in `server/alembic.ini` with your new database credentials:
-
-   ```python
-   DATABASE_URL = "postgresql://your_user_name:your_password@localhost/your_database_name"
-   ```
-
-3. **Initialize Alembic**
+2. **Initialize Alembic**
 
    If you haven't already initialized Alembic, run the following command in your terminal from the `server` directory:
 
@@ -52,7 +44,7 @@ To set up the database for the Mock Interview System, follow these steps:
    alembic init migrations
    ```
 
-4. **Apply Migrations**
+3. **Apply Migrations**
 
    Run the following commands to apply the migrations and set up the database schema:
 
@@ -63,7 +55,7 @@ To set up the database for the Mock Interview System, follow these steps:
 
    This will apply all the migrations and create the necessary tables in your database.
 
-5. **Verify the Setup**
+4. **Verify the Setup**
 
    Use a database client or command-line tool to verify that the tables have been created in your database.
 
@@ -99,18 +91,7 @@ To set up the backend for the Mock Interview System, follow these steps:
    pip install -r requirements.txt
    ```
 
-3. **Set up environment variables**
-
-   Create a `.env` file in the server directory with the following variables:
-
-   ```
-   DATABASE_URL=postgresql://your_user_name:your_password@localhost/your_database_name
-   GEMINI_API_KEY=your_gemini_api_key
-   ```
-
-   Note: The app currently uses a hardcoded Gemini API key for demonstration purposes, but it's recommended to use environment variables for security in production.
-
-4. **Run the Flask server**
+3. **Run the Flask server**
 
    ```bash
    python app.py
