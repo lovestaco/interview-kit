@@ -7,6 +7,10 @@ from functions.review_generation import gen_review
 from flask_cors import CORS, cross_origin
 from dotenv import load_dotenv
 import os
+from config.database import get_db
+from models.models import User, Interview
+from sqlalchemy import exc
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 CORS(app)
@@ -23,6 +27,14 @@ model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 @app.before_request
 def before_request():
     g.model = model
+    g.db = next(get_db())
+
+
+@app.teardown_appcontext
+def teardown_db(exception):
+    db = g.pop("db", None)
+    if db is not None:
+        db.close()
 
 
 @app.route("/")
@@ -117,6 +129,71 @@ def get_review():
 #     except Exception as e:
 #         print(f"Error occurred while generating review: {e}")
 #         return jsonify({'errorMsg': "Something went wrong"}), 400
+
+
+@app.route("/api/signin", methods=["POST"])
+def signin():
+    try:
+        data = request.get_json()
+        email = data.get("email")
+        password = data.get("password")
+
+        if not email or not password:
+            return jsonify({"error": "Email and password are required"}), 400
+
+        # Check if user exists
+        existing_user = g.db.query(User).filter(User.email == email).first()
+
+        if existing_user:
+            # User exists - verify password
+            if check_password_hash(existing_user.password, password):
+                return (
+                    jsonify(
+                        {
+                            "message": "Login successful",
+                            "user": {
+                                "id": existing_user.id,
+                                "email": existing_user.email,
+                                "role": existing_user.role,
+                            },
+                        }
+                    ),
+                    200,
+                )
+            else:
+                return jsonify({"error": "Invalid password"}), 401
+        else:
+            # Create new user
+            hashed_password = generate_password_hash(password)
+            new_user = User(
+                email=email,
+                password=hashed_password,
+                role="employee",  # Default role for new users
+            )
+
+            try:
+                g.db.add(new_user)
+                g.db.commit()
+                return (
+                    jsonify(
+                        {
+                            "message": "User registered successfully",
+                            "user": {
+                                "id": new_user.id,
+                                "email": new_user.email,
+                                "role": new_user.role,
+                            },
+                        }
+                    ),
+                    201,
+                )
+            except exc.IntegrityError:
+                g.db.rollback()
+                return jsonify({"error": "Email already exists"}), 409
+
+    except Exception as e:
+        print(f"Error in signin: {e}")
+        return jsonify({"error": "Something went wrong"}), 500
 
 
 if __name__ == "__main__":
