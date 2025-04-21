@@ -140,3 +140,57 @@ Gemini 1.5 Flash was chosen as the primary AI model for several reasons:
 ## Conclusion
 
 Interview Kit combines modern web technologies with AI capabilities to create a comprehensive interview practice platform. The system's architecture ensures scalability, security, and efficient performance while providing valuable feedback to users preparing for job interviews.
+
+---
+
+## System Flow Overview
+
+The Interview Kit platform operates through a streamlined client-server architecture, integrating AI for dynamic interview experiences. Below is an overview of the flow:
+
+1. **User accesses the frontend (client)**, built with React.js.
+2. **User signs up or logs in**; credentials are sent securely to the Flask backend (server).
+3. **Authentication is processed**; JWT tokens are issued for session management.
+4. **User selects interview parameters** (job role, experience, etc.) on the client.
+5. **Client sends request to server** for interview questions.
+6. **Server invokes Gemini AI model** to generate tailored questions.
+7. **Questions are sent back to the client** and displayed to the user.
+8. **During the interview:**
+   - **Face detection** and **speech recognition** run in the browser.
+   - **User responses** (text/audio) are sent to the backend for analysis.
+9. **Server uses Gemini AI** for evaluating responses and stores results in PostgreSQL.
+10. **Feedback and analytics** are sent back to the client for user review.
+11. **Admins can access records** via protected endpoints for monitoring and analytics.
+
+### Architecture Flow (Mermaid Diagram)
+
+![Architecture Flow](flow.png)
+
+This flow ensures a secure, efficient, and interactive experience for both candidates and administrators, leveraging AI for real-time feedback and robust data management.
+
+---
+
+## Detailed User Interview Flow
+
+This section describes the complete journey of a user from signup to interview completion and data storage for admin review.
+
+1. **User signs up** via the client (React frontend); credentials sent to the Flask backend and stored in PostgreSQL.
+2. **User signs in**; authentication is validated, and a JWT token is issued.
+3. **User enters the position** they are applying for and submits the form.
+4. **Client sends the position and user info** to the backend.
+5. **Backend (Flask) calls the LLM (Gemini AI)** to generate 5 tailored interview questions for the specified position.
+6. **Questions are sent back to the client** and displayed to the user.
+7. **For each question:**
+   - User responds (via text/audio).
+   - **Face detection** and **voice analysis** are performed in the browser for each response.
+   - Response, face, and voice data are sent to the backend for analysis.
+8. **After all 5 questions:**
+   - **Client requests a summary** from the backend.
+   - **Backend calls LLM** for a summary and feedback.
+9. **All responses, analysis, and summary** are stored in the PostgreSQL database.
+10. **Admin users** can later review detailed interview data and analytics via the admin dashboard.
+
+### User Interview Flow (Mermaid Diagram)
+
+![User Interview Flow](prd_diagram.png)
+
+This flow ensures a seamless and intelligent interview experience, with robust analysis and storage for future review by administrators.
